@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <title>添加数据</title>
+    <style>
+    tr,th{
+		text-align: center;
+		height: 20px;
+
+	}
+
+    </style>
+</head>
+<body>
+        <div id="" class="container">
+				
+		 	  <table style="margin-top:150px;" border="" class="table table-bordered table-hover table-striped" cellspacing="" cellpadding="">
+		 	  	<tr>
+		 	  		<th class='bg-warning'>性别</th>
+		 	  		<th class='bg-warning'>姓名</th>
+		 	  		<th class='bg-warning'>班级</th>
+		 	  		<th class='bg-warning'>分数</th>
+
+                   </tr>
+                   <tr>
+                       <td>	<select id="sex"  class="custom-select">
+                            <option>男</option>
+                            <option>女</option>
+                           </select>
+                        </td>
+                       <td><input type="text" id="sname"></td>
+                       <td><select name="cname" class="custom-select" id="cid">
+                           </select>
+                        </td>
+                        <td><input type="text" id="score"></td>
+                   </tr>
+		 	  	 	<tr class="end">
+		 	  		<td colspan="7" align="center">
+                           <button type="button" id="total" class="btn btn-outline-warning ">确定修改</button>
+                          <a href="index.html"><button type="button" id="total" class="btn btn-outline-success ">返回首页</button></a> 
+		 	  		</td>
+		 	  	</tr>
+		 	  </table>
+		 	
+		 </div>
+		
+</body>
+<script src="https://text.xiaohuwei.cn/weather/jquery-1.12.4.min.js"></script>
+<script>
+//定义接值函数
+　　function GetUrlParam(paraName) {
+　　　　var url = document.location.toString();
+　　　　var arrObj = url.split("?");
+
+　　　　if (arrObj.length > 1) {
+　　　　　　var arrPara = arrObj[1].split("&");
+　　　　　　var arr;
+
+　　　　　　for (var i = 0; i < arrPara.length; i++) {
+　　　　　　　　arr = arrPara[i].split("=");
+
+　　　　　　　　if (arr != null && arr[0] == paraName) {
+　　　　　　　　　　return arr[1];
+　　　　　　　　}
+　　　　　　}
+　　　　　　return "";
+　　　　}
+　　　　else {
+　　　　　　return "";
+　　　　}
+　　}
+
+//无条件追加班级
+$.post("getclass.php",{},(res)=>{
+    res = JSON.parse(res);
+    for(i in res){
+        var str = `<option value='${res[i].cid}' class='vip${res[i].cid}'>${res[i].cname}</option>`;
+        $("#cid").append(str);
+    }
+})
+ var sid = GetUrlParam("sid");
+ //开始对应每个学生的信息
+$.post("getstu.php",{sid},(res)=>{
+    res = JSON.parse(res);
+    document.getElementById("sname").value=res[0].sname;
+    document.getElementById("score").value=res[0].score;
+    document.getElementById("sex").value=res[0].sex;
+    $("[value='"+res[0].cid+"']").prop("selected",true);
+})
+//修改功能开始
+$("#total").click(()=>{
+var sex = $("#sex").val();
+var sname = $("#sname").val();
+var score = $("#score").val();
+var cid = $("#cid").val();
+$.post("save.php",{sex,sname,score,cid,sid},(res)=>{
+        if(res=="1"){
+            alert("修改数据成功！");
+            window.location.href="change.html?sid="+sid;
+        }else{
+            alert("修改失败");
+        }
+})
+
+})
+
+
+</script>
+</html>
