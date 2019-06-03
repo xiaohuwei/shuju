@@ -9,15 +9,10 @@
 		  
 	  }
     $re = del($link, "stus", "sid in($sid)");;
-    if($re>0){
-        echo "<script>";
-        echo "alert('操作成功！')";
-        echo "</script>";
-        header("location:index.html");
+    if($re<=0){
+        echo "0";
     }else {
-        echo "<script>";
-        echo "alert('操作失败！')";
-        echo "</script>";
-        header("location:index.html");
+        echo "删除成功";
+        
     }
-    
+    header("Refresh:1;url=index.html"); 

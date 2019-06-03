@@ -14,9 +14,21 @@
 	 	$arr["total"] = $total[0]["sum"]; 
 	 	echo json_encode($arr);
 	}else {
-		$arr = query($link, "select * from stus,class where $type like '%$key%' and stus.cid=class.cid order by sid asc limit $start,$pageSize");
+		$arr = query($link, "select * from stus,class where $type like '%$key%' and stus.cid=class.cid order by sid desc limit $start,$pageSize");
 		$total= query($link, "select count(1) sum from stus,class where $type like '%$key%' and stus.cid=class.cid");
-	 	$arr["total"] = $total[0]["sum"]; 
+		 //替换关键字变色
+		 if($type == "sname"){
+			foreach($arr as $k=> $v){
+		  $arr[$k]["sname"] = str_ireplace($key, "<span style='color:red'>$key</span>", $v["sname"]);
+		 }
+		}else{
+			foreach($arr as $k=> $v){
+		  $arr[$k]["cname"] = str_ireplace($key, "<span style='color:red'>$key</span>", $v["cname"]);
+		 }
+		}
+		//变色结束
+		$arr["total"] = $total[0]["sum"]; 
 	 	echo json_encode($arr);
 	}
+	
 	

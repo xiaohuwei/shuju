@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link href="//netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <title>添加数据</title>
     <style>
@@ -40,7 +41,7 @@
                    </tr>
 		 	  	 	<tr class="end">
 		 	  		<td colspan="7" align="center">
-		 	  			<button type="button" id="total" class="btn btn-outline-info ">确定添加</button>
+		 	  			<button type="button" id="total" class="btn btn-outline-info "> <span class="fa fa-send"></span> 确定添加</button>
 		 	  		</td>
 		 	  	</tr>
 		 	  </table>
@@ -67,7 +68,7 @@ var cid = $("#cid").val();
 $.post("add.php",{sex,sname,score,cid},(res)=>{
         if(res=="1"){
             alert("添加数据成功！");
-            window.location.href="index.html";
+            window.location.href="admin.php";
         }else{
             alert("添加失败");
         }
